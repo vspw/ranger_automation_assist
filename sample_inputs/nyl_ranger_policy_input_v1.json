@@ -1,0 +1,47 @@
+{
+    "envdetails": {
+        "envName": "Prod",
+        "hdfsURI": "http://xena.hdp.com:50070",
+        "rangerURI": "http://zulu.hdp.com:6080",
+        "opUsername": "admin",
+        "opPassword": "admin"
+    },
+   "hdfschecklist":[{
+        "repositoryName":"turing_hadoop",
+        "depth": "0",
+        "description": "checks new directories under temp_2",
+        "resourceName": "Users: List_Contents RE-NR",
+        "path": "tenant",
+        "allowRangerPathDelete":"true",
+      "permMapList": [
+        {
+          "groupList": [
+            "slider"
+          ],
+          "permList": [
+            "Read","Execute","Write"
+          ]
+           
+        }
+       ]
+    },
+{
+        "repositoryName":"turing_hadoop",
+        "depth": "1",
+        "description": "checks new directories under temp_2",
+        "resourceName": "Users: List_Contents RE-NR",
+        "path": "tenant",
+        "allowRangerPathDelete":"false",
+      "permMapList": [
+        {
+          "groupList": [
+            "userspvt","userspub"
+          ],
+          "permList": [
+            "Read","Execute","Write"
+          ]
+
+        }
+       ]
+    }]
+}

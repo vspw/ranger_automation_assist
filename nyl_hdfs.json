@@ -1,0 +1,33 @@
+{
+    "FileStatuses": {
+        "FileStatus": [{
+            "accessTime": 0,
+            "blockSize": 0,
+            "childrenNum": 1,
+            "fileId": 16399,
+            "group": "hadoop",
+            "length": 0,
+            "modificationTime": 1479313174930,
+            "owner": "yarn",
+            "pathSuffix": "app-logs",
+            "permission": "777",
+            "replication": 0,
+            "storagePolicy": 0,
+            "type": "DIRECTORY"
+        }, {
+            "accessTime": 0,
+            "blockSize": 0,
+            "childrenNum": 3,
+            "fileId": 16389,
+            "group": "hdfs",
+            "length": 0,
+            "modificationTime": 1479313174930,
+            "owner": "hdfs",
+            "pathSuffix": "apps",
+            "permission": "755",
+            "replication": 0,
+            "storagePolicy": 0,
+            "type": "DIRECTORY"
+        }]
+    }
+}

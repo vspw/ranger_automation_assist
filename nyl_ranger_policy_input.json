@@ -1,0 +1,206 @@
+{
+    "envdetails": {
+        "envName": "Tech",
+        "hdfsURI": "http://xena.hdp.com:50070",
+        "rangerURI": "http://zulu.hdp.com:6080",
+        "opUsername": "admin",
+        "opPassword": "hadoop1234",
+        "opKeyStoreFile": "file:///Users/venkata/Documents/HWProjects/NYL/ranger/rest_eg/my_keystore.jceks",
+        "opKeyAlias": "hadoop",
+        "opKeyStorePassword": "hadoop1234",
+        "useHdfsKeytab":false,
+        "hdfsKeytabUpn":"userpn",
+        "hdfsKeytab":"/Users/venkata/Documents/keytab",
+        "repeatPeriod": 30
+    },
+    "hdfschecklist": [{
+        "repositoryName": "turing_hadoop",
+        "depth": 0,
+        "description": "checks new directories under temp_2",
+        "resourceName": "D0Users: List_Contents RE-NR",
+        "paths": ["tenant","tmp/entity-file-history","tmp/test1"],
+        "isEnabled": true,
+        "isRecursive": false,
+        "allowRangerPathDelete": false,
+        "autoIdentifyAttributes": false,
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }, {
+                "type": "write",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hdpdev-user", "ambari-qa"],
+            "conditions": [],
+            "delegateAdmin": false
+        }, {
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": ["t93ki8h"],
+            "groups": ["ambari-qa", "hdpdev-user"],
+            "conditions": [],
+            "delegateAdmin": true
+        }]
+    },{
+        "repositoryName": "turing_hadoop",
+        "depth": 2,
+        "description": "checks new directories under tenant2",
+        "resourceName": "Dynamic:LOB-FA-Writes",
+        "paths": ["tenant2"],
+        "isEnabled": true,
+        "isRecursive": false,
+        "allowRangerPathDelete": false,
+        "autoIdentifyAttributes": true,
+        "autoIdentifyAttributesKeys": ["LOB","FA"],
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }, {
+                "type": "write",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hdpdev-LOB-FA-user"],
+            "conditions": [],
+            "delegateAdmin": false
+        }, {
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["ambari-qa", "hdpdev-user"],
+            "conditions": [],
+            "delegateAdmin": true
+        }]
+    },{
+        "repositoryName": "turing_hadoop",
+        "depth": 1,
+        "description": "checks new directories under temp_2",
+        "resourceName": "D1Users: List_Contents RE-NR",
+        "paths": ["tenant"],
+        "isEnabled": true,
+        "isRecursive": false,
+        "allowRangerPathDelete": false,
+        "autoIdentifyAttributes": false,
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hdpdev-user"],
+            "conditions": [],
+            "delegateAdmin": false
+        }, {
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "write",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": ["t93ki8h"],
+            "groups": ["ambari-qa", "hdpdev-user"],
+            "conditions": [],
+            "delegateAdmin": true
+        }]
+    }, {
+        "repositoryName": "turing_hadoop",
+        "depth": 2,
+        "description": "checks new directories under temp_2",
+        "resourceName": "D1Users: List_Contents RE-NR",
+        "paths": ["tenant"],
+        "isEnabled": true,
+        "isRecursive": false,
+        "allowRangerPathDelete": false,
+        "autoIdentifyAttributes": false,
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["users"],
+            "conditions": [],
+            "delegateAdmin": false
+        }, {
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "write",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": ["t93ki8h"],
+            "groups": ["ambari-qa", "hdpdev-user"],
+            "conditions": [],
+            "delegateAdmin": true
+        }]
+    },
+    {
+        "repositoryName": "turing_hadoop",
+        "depth": 3,
+        "description": "checks new directories under temp_2",
+        "resourceName": "D0Users: List_Contents RE-NR",
+        "paths": ["tenant"],
+        "isEnabled": true,
+        "isRecursive": false,
+        "allowRangerPathDelete": false,
+        "autoIdentifyAttributes": false,
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hdpdev-user"],
+            "conditions": [],
+            "delegateAdmin": false
+        }, {
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "write",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": ["t93ki8h"],
+            "groups": ["ambari-qa", "hdpdev-user"],
+            "conditions": [],
+            "delegateAdmin": true
+        }]
+    }]
+}
