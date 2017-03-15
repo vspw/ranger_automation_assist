@@ -12,7 +12,7 @@ else
         exit 1
 fi
 
-WORKING_DIR="/home/t93ki8h/ranger-automation-assist"
+WORKING_DIR="/home/user1223/ranger-automation-assist"
 LOG4J_PROP_FILE=$WORKING_DIR/log4j.properties
 export WORK_PATH=$WORKING_DIR/*
 PIDFILE=$WORKING_DIR/pid.tmp
@@ -20,9 +20,9 @@ OPTS="-Dlog4j.configuration=file:$LOG4J_PROP_FILE"
 
 ##Class and options passed
 CLASS=com.hwx.ranger.RangerAssistScheduler
-export FILE_FQDN=$WORKING_DIR/nyl_ranger_policy_input.json
-UPN="hdfs-tech@TECH.HDP.NEWYORKLIFE.COM"
-KEYTAB="/home/t93ki8h/ranger-automation-assist/hdfs.headless.keytab"
+export FILE_FQDN=$WORKING_DIR/hdp_ranger_policy_input.json
+UPN="hdfs-tech@TECH.HDP.hdphost.COM"
+KEYTAB="/home/user1223/ranger-automation-assist/hdfs.headless.keytab"
 FREQ=30
 
 CURR_PROGRAM=ranger-assist
