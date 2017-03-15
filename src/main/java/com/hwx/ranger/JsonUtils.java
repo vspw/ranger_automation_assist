@@ -35,37 +35,8 @@ public class JsonUtils {
 
       }
     
-    protected HDFSListStatusResponse parseHDFSList(String jsonContent)  {
-   	 HDFSListStatusResponse inpObject=null;
-       if ((jsonContent == null) || jsonContent.isEmpty()) {
-         return (HDFSListStatusResponse) Collections.emptyMap();
-       } else {
-         try {
-       	inpObject = new Gson().fromJson(jsonContent, HDFSListStatusResponse.class);
-         } 
-         catch (JsonSyntaxException e) {
-       	  logger.error(e.getMessage());
-         }
-         return inpObject;
-       }
-
-     }
     
-    protected FileStatusResponse parseHDFSFileStatus(String jsonContent)  {
-    	FileStatusResponse inpObject=null;
-          if ((jsonContent == null) || jsonContent.isEmpty()) {
-            return (FileStatusResponse) Collections.emptyMap();
-          } else {
-            try {
-          	inpObject = new Gson().fromJson(jsonContent, FileStatusResponse.class);
-            } 
-            catch (JsonSyntaxException e) {
-          	  logger.error(e.getMessage());
-            }
-            return inpObject;
-          }
 
-        }
     protected RangerPolicyResponse parseRangerPolicy(String jsonContent)  {
       	 RangerPolicyResponse inpObject=null;
           if ((jsonContent == null) || jsonContent.isEmpty()) {

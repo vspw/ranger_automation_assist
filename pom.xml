@@ -8,13 +8,6 @@
 	<description>Ranger Assist to monitor HDFS and update Ranger ACLs.
 Modified ranger-assist to work with HDFS RPC calls instead of webHDFS calls.</description>
 
-	<repositories>
-		<repository>
-			<id>maven.senia.org</id>
-			<name>maven.senia.org</name>
-			<url>http://maven.senia.org/maven</url>
-		</repository>
-	</repositories>
 	
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
@@ -78,11 +71,6 @@ Modified ranger-assist to work with HDFS RPC calls instead of webHDFS calls.</de
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.apache</groupId>
-			<artifactId>adldap</artifactId>
-			<version>1.0</version>
-		</dependency>
 	</dependencies>
 
 	<build>

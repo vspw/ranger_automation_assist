@@ -1,120 +1,76 @@
 package com.hwx.ranger;
 
-
 import java.io.IOException;
-import java.net.URI;
-import java.security.PrivilegedExceptionAction;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import javax.naming.directory.Attribute;
-import javax.naming.directory.InitialDirContext;
-
-import org.apache.adldap.KerberosClient;
-import org.apache.adldap.LdapApi;
-import org.apache.adldap.LdapClient;
-import org.apache.adldap.LdapClientSASL;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.ContentSummary;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.security.UserGroupInformation;
-import org.mortbay.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public class HadoopFileSystemOps {
-	private static final Logger LOG = LoggerFactory.getLogger(HadoopFileSystemOps.class);
 
-	static InitialDirContext ctx = null;
-	public static String gcbaseDn = "";
 	static FileSystem fs = null;
-	static String type = null;
-	static boolean userFolder = false;
-	static KerberosClient krbClient;
-	private final Object lock = new Object();
-	private final Object userProclock = new Object();
-	static String userPrincipalName;
-	static Response objInputAssist=null;
-	UserGroupInformation ugi = null;
 	static Configuration hdpConfig = new Configuration();
-	
-	public HadoopFileSystemOps(Response objInput) {
+	private static final Logger logger = LoggerFactory.getLogger(HadoopUGI.class);
 
+	public HadoopFileSystemOps() {
+		hdpConfig.addResource(new Path("/etc/hadoop/conf/core-site.xml"));
+		hdpConfig.addResource(new Path("/etc/hive/conf/hive-site.xml"));
+		hdpConfig.addResource(new Path("/etc/hadoop/conf/hdfs-site.xml"));
 		try {
-			this.objInputAssist=objInput;
-			userPrincipalName = UserGroupInformation.getCurrentUser().getUserName();
+			fs = FileSystem.get(hdpConfig);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		logger.info("Initialized file system object");
 	}
-	
-	public void manageFolders() {
 
-		try {
-			if (objInputAssist.getEnvDetails().isUseHdfsKeytab()) {
-	            ugi = UserGroupInformation.loginUserFromKeytabAndReturnUGI(objInputAssist.getEnvDetails().getHdfsKeytabUpn(),objInputAssist.getEnvDetails().getHdfsKeytab());
-	            UserGroupInformation.setLoginUser(ugi);
-	            ugi.setAuthenticationMethod(UserGroupInformation.AuthenticationMethod.KERBEROS);
-			} else {
-				ugi = UserGroupInformation.getCurrentUser();
-				ugi.setAuthenticationMethod(UserGroupInformation.AuthenticationMethod.SIMPLE);
+	public boolean isHdfsPathValid( String strPath, boolean checkForDir) throws IOException
+	{
+		boolean retVal=false;
+		Path path=new Path(strPath);
+
+		if (fs.exists(path)) {
+			//org.apache.hadoop.fs.FileStatus[] fileStatus = fs.listStatus(path);
+			//for( org.apache.hadoop.fs.FileStatus status : fileStatus){
+			//    LOG.info(status.getPath().toString());
+			//}
+			logger.info("HDFSOps:Path Exists: "+path.getName());
+			retVal=true;
+			if(checkForDir)
+			{
+				logger.info("HDFSOps:Directory Exists: "+path.getName());
+				retVal=fs.isDirectory(path);
 			}
-			LOG.debug("HdfsUPN: "+ugi.getUserName());
-
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			LOG.error(e1.getMessage());
 		}
-		//ugi.setAuthenticationMethod(UserGroupInformation.AuthenticationMethod.KERBEROS);
-		try {
-			ugi.doAs(new PrivilegedExceptionAction<Void>() {
 
-				public Void run() throws Exception {
-
-					try {
-					    hdpConfig.addResource(new Path("/etc/hadoop/conf/core-site.xml"));
-					    hdpConfig.addResource(new Path("/etc/hive/conf/hive-site.xml"));
-					    hdpConfig.addResource(new Path("/etc/hadoop/conf/hdfs-site.xml"));
-					    //hdpConfig.set("hadoop.security.authentication", "kerberos");
-						LOG.info("Config: "+hdpConfig.get("hadoop.security.authentication"));
-						LOG.info("Config: "+hdpConfig.get("dfs.namenode.kerberos.principal"));
-						LOG.info("Config: "+hdpConfig.get("fs.defaultFS"));
-						LOG.info("Before initialized file system");
-						//fs = FileSystem.get(new URI("hdfs://xena.hdp.com:8020"), hdpConfig);
-						fs = FileSystem.get(hdpConfig);
-						LOG.info("initialized file system");
-				    	  if (fs.exists(new Path("/"))) {
-				    		  org.apache.hadoop.fs.FileStatus[] fileStatus = fs.listStatus(new Path("/"));
-				    		    for( org.apache.hadoop.fs.FileStatus status : fileStatus){
-				    		        LOG.info(status.getPath().toString());
-				    		    }
-                                    LOG.info("FolderExists");
-		
-				    	  }
-				    	  else
-				    	  {
-				    		  LOG.error("Failed to connect to HDFS");
-				    	  }
-					} catch (IOException e2) {
-						// TODO Auto-generated catch block
-						LOG.info(e2.getMessage());
-						e2.getStackTrace();
-					}
-
-					return null;
-				}
-			});
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOG.error(e.getMessage());
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			LOG.error(e.getMessage());
-		}
+		return retVal;
 
 	}
-	
+
+	public List<String> getHdfsListStringPaths( String strPath) throws IOException
+	{
+		Path path=new Path(strPath);
+		List<String> listStringPaths = new ArrayList<String>();
+		//RemoteIterator<LocatedFileStatus> iteratorLocatedFileStatus=null;
+		FileStatus[] arrayFileStatus=null;
+        arrayFileStatus = fs.listStatus(path);
+		for(FileStatus hdfsFileStatus : arrayFileStatus)
+		{
+			//LocatedFileStatus objLocFileStatus=iteratorLocatedFileStatus.next();
+			if (hdfsFileStatus.isDirectory() && !(hdfsFileStatus.getPath().getName().charAt(0)=='.'))
+			{
+				logger.debug("HDFSOps: adding to directory Path list: "+hdfsFileStatus.getPath().getName());
+				listStringPaths.add(hdfsFileStatus.getPath().getName());
+			}
+		}
+		return listStringPaths;
+
+	}
 }

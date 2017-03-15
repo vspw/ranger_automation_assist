@@ -1,0 +1,255 @@
+{
+    "envdetails": {
+        "envName": "Tech",
+        "hdfsURI": "",
+        "rangerURI": "https://ranger.tech.hdp.hdphost.com",
+        "opUsername": "user123@HQ.NT.hdphost.COM",
+        "opPassword": "*****",
+        "opKeyAlias": "hadoop",
+        "opKeyStoreFile": "file:///home/user123/ranger-automation-assist/rastore.jceks",
+        "opKeyStorePassword": "hadoop1234",
+        "useHdfsKeytab":true,
+        "hdfsKeytabUpn":"hdfs-tech@TECH.HDP.hdphost.COM",
+        "hdfsKeytab":"/home/user123/ranger-automation-assist/hdfs.headless.keytab",
+        "repeatPeriod": 30
+    },
+    "hdfschecklist": [{
+        "repositoryName": "tech_hadoop",
+        "depth": 0,
+        "description": "Public Data that is Readable by Cluster Users",
+        "resourceName": "End-User:Get-All-Contents2",
+        "paths": ["/user/oozie","/source/public","/processed/public","/protegrity","/apps/sparkdeps","/public_data"],
+        "isEnabled": false,
+        "isRecursive": true,
+        "allowRangerPathDelete": false,
+                "autoIdentifyAttributes": false,
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hdpdev-user"],
+            "conditions": [],
+            "delegateAdmin": false
+        }]
+    },{
+        "repositoryName": "tech_hadoop",
+        "depth": 2,
+        "description": "checks new directories under tenant2",
+        "resourceName": "Dynamic:LOB-FA-ReadWrite2",
+        "paths": ["/tenant"],
+        "isEnabled": false,
+        "isRecursive": false,
+        "allowRangerPathDelete": false,
+        "autoIdentifyAttributes": true,
+        "autoIdentifyAttributesKeys": ["LOB","FA"],
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }, {
+                "type": "write",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hdp-LOB-FA-w"],
+            "conditions": [],
+            "delegateAdmin": false
+        }, {
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hdp-LOB-FA-r"],
+            "conditions": [],
+            "delegateAdmin": true
+        }]
+    },{
+        "repositoryName": "tech_hadoop",
+        "depth": 0,
+        "description": "Public Data that is Readable by Cluster Users",
+        "resourceName": "End-User:-Get-Direct-Contents2",
+        "paths": ["/","/apps","/apps/hive","/apps/hive/warehouse","/source","/tenant","/processed","/user","/source/private","/processed/private"],
+        "isEnabled": false,
+        "isRecursive": true,
+        "allowRangerPathDelete": false,
+                "autoIdentifyAttributes": false,
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hdpdev-user"],
+            "conditions": [],
+            "delegateAdmin": false
+        }]
+    },
+        {
+        "repositoryName": "tech_hadoop",
+        "depth": 0,
+        "description": "Public Data that is Readable by Cluster Users",
+        "resourceName": "App:-DIF2",
+        "paths": ["/landing","/source","/processed","/apps/dif","/apps/hive/warehouse"],
+        "isEnabled": false,
+        "isRecursive": true,
+        "allowRangerPathDelete": false,
+                "autoIdentifyAttributes": false,
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            },{
+                "type": "write",
+                "isAllowed": true
+            },{
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": ["hdpdevedmingest"],
+            "groups": ["hdpdev-dif-developer","hdpdev-dif-admin"],
+            "conditions": [],
+            "delegateAdmin": false
+        }]
+    },
+        {
+        "repositoryName": "tech_hadoop",
+        "depth": 0,
+        "description": "SuperUser privileges for administrators",
+        "resourceName": "Administrator2",
+        "paths": ["/"],
+        "isEnabled": false,
+        "isRecursive": true,
+        "allowRangerPathDelete": false,
+                "autoIdentifyAttributes": false,
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "write",
+                "isAllowed": true
+            },{
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hdpdev-edm-admin"],
+            "conditions": [],
+            "delegateAdmin": false
+        }]
+    },{
+        "repositoryName": "tech_hadoop",
+        "depth": "0",
+        "description": "Application account access to HBase HDFS directories",
+        "resourceName": "App:-HBase2",
+        "paths": ["/apps/hbase"],
+        "isEnabled": false,
+        "isRecursive": true,
+        "allowRangerPathDelete": "false",
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            },{
+                "type": "write",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hbase"],
+            "conditions": [],
+            "delegateAdmin": false
+        }]
+    },{
+        "repositoryName": "tech_hadoop",
+        "depth": 0,
+        "description": "Provides Access for ambari-qa test ID so service checks can pass for upgrades and testing",
+        "resourceName": "Ambari-Health-Check-Write2",
+        "paths": ["/apps/hive/warehouse"],
+        "isEnabled": false,
+        "isRecursive": true,
+        "allowRangerPathDelete": false,
+                "autoIdentifyAttributes": false,
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            },{
+                "type": "write",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": ["ambari-qa"],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false
+        }]
+    },{
+        "repositoryName": "tech_hadoop",
+        "depth": 0,
+        "description": "For Ambari read privileges",
+        "resourceName": "Ambari-Health-Check-Read2",
+        "paths": ["/apps/sparkdeps","/user/oozie"],
+        "isEnabled": false,
+        "isRecursive": true,
+        "allowRangerPathDelete": false,
+                "autoIdentifyAttributes": false,
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": ["ambari-qa"],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false
+        }]
+    },{
+        "repositoryName": "tech_hadoop",
+        "depth": "2",
+        "description": "Testing Depth 2",
+        "resourceName": "Tmp:-TestDepth2",
+        "paths": ["/tmp/wunnava"],
+        "isEnabled": false,
+        "isRecursive": true,
+        "allowRangerPathDelete": "false",
+        "policyItems": [{
+            "accesses": [{
+                "type": "read",
+                "isAllowed": true
+            },{
+                "type": "write",
+                "isAllowed": true
+            }, {
+                "type": "execute",
+                "isAllowed": true
+            }],
+            "users": [],
+            "groups": ["hdpdev-edm-admin"],
+            "conditions": [],
+            "delegateAdmin": false
+        }]
+    }]
+}

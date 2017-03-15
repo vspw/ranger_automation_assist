@@ -96,12 +96,12 @@ public boolean equals(Object obj) {
 	if (groups == null) {
 		if (other.groups != null)
 			return false;
-	} else if (!groups.containsAll(other.groups))
+	} else if (!groups.equals(other.groups))
 		return false;
 	if (users == null) {
 		if (other.users != null)
 			return false;
-	} else if (!users.containsAll(other.users))
+	} else if (!users.equals(other.users))
 		return false;
 	return true;
 }
