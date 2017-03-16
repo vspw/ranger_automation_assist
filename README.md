@@ -388,11 +388,11 @@ Creates a Ranger Policy for these set of key-values (Policy Name: Dynamic:eng-ca
 
 
 - The above input item will result in the following separate policies in Ranger:-
- * Dynamic:hr-oregon-ReadWrite
- * Dynamic:hr-alaska-ReadWrite
- * Dynamic:hr-virginia-ReadWrite
- * Dynamic:eng-washington-ReadWrite
- * Dynamic:eng-california-ReadWrite
+ - Dynamic:hr-oregon-ReadWrite
+ - Dynamic:hr-alaska-ReadWrite
+ - Dynamic:hr-virginia-ReadWrite
+ - Dynamic:eng-washington-ReadWrite
+ - Dynamic:eng-california-ReadWrite
 
 - Make sure that the appropriate groups like "hdpdev-hr-oregon-rw" already exist in Ranger.
 
