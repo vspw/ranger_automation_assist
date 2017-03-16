@@ -28,11 +28,10 @@ public class BasicAuthRangerConnection implements RangerConnection {
 
 	protected static final Logger logger = LoggerFactory.getLogger(BasicAuthRangerConnection.class);
 
-	private String rangerUrl = RangerConnectionFactory.DEFAULT_PROTOCOL 
-			+ RangerConnectionFactory.DEFAULT_HOST + ":" + RangerConnectionFactory.DEFAULT_PORT;
-	private String principal = RangerConnectionFactory.DEFAULT_USERNAME;
-	private String password = RangerConnectionFactory.DEFAULT_PASSWORD;
-	private String repository = RangerConnectionFactory.DEFAULT_REPOSITORY;
+	private String rangerUrl = null;
+	private String principal = null;
+	private String password = null;
+	private String repository = null;
 
 	public BasicAuthRangerConnection() {
 	}
