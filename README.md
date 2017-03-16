@@ -1,10 +1,10 @@
-##Objective
+## Objective
 The objective of the application is to help with the management of Ranger HDFS Policies by Create New policies and Maintain existing Ranger Policies.  Features include:-
 - Dynamic Detection of HDFS directories at a given depth and create corresponding Ranger Policy.
 - Maintenance of existing Ranger Policies by reverting any unwanted changes. Thus, the ranger policies are consistent with the input file provided to the appliction. Any changes to the governed ranger policies should be done from the input file ONLY.
 - Auto Identification feature allows for naming Ranger Policies based on the HDFS Directory Naming convention.
 
-##Contents:-
+## Contents
 [resources](/src/main/resources/)
 - hdp_ranger_policy_input.json
 This is the the input file which is supplied to the application. This file dictates which Ranger policies should be managed by this application. HDFS Ranger policies which are not within this input file will NOT be maintained by the program. Any new Ranger Policy should be added via this input file.
@@ -14,8 +14,8 @@ The log4j properties which helps with logging.
 This is a wrapper around this java application that helps with starting/stopping/restarting the application. It includes the classpath directions etc.
 - keystore.jceks (Although this file is not in Git, the application expects this file to get credentials for Ranger connection. See usage section)
 
-[java](src/main/java/com/hwx/ranger/)
-###Main Class:-
+[Java classes](src/main/java/com/hwx/ranger/)
+### Main Class
 - RangerAssistScheduler.java
 This application has to be initiated using this class. It handles the input options, creates the Hadoop UGI based on the keytab provided and starts the Ranger Automation threads based on the input option- frequency (see Input/Usage section).
 Helper/Utility Classes:-
@@ -35,7 +35,7 @@ This is an Interface implemented by BasicAuthRangerConnection. The idea was to s
 This class helps with establishing connection to the Ranger service and has the wrappers to interact with Ranger REST API to post/get information. Functions include: updatePolicyByName, createPolicy. 
 
 
-###Classes used to parse the input json
+### Classes used to parse the input JSON
 - Response.java
 The input json file (hdp_ranger_policy_input.json) is read using Gson into this object (Response). The Response object further comprises of EnvDetails and HDFSCheckList objects.
 - EnvDetails.java
@@ -48,7 +48,7 @@ Each HDFSCheckList object has a list of PolicyItem objects. Each PolicyItem obje
 Access objects have a type and an associated boolean flag which represents whether a user or group has privileges for the said type.
 Eg: type can be read, and isAllowed flag can be set to true of false.
 
-###Classes used to parse the json responses from Ranger REST calls
+### Classes used to parse the JSON responses from Ranger REST calls
 - RangerPolicyResponse.java
 The json responses from Ranger REST API are parsed into this object in java. This object further comprises of objects such as Resources, PolicyItem etc. to accurately represent a Ranger Policy.
 - Resources.java
@@ -60,14 +60,14 @@ Same as the one mentioned above.
 - Access.java
 Same as the one mentioned above.
 
-##Input/Usage
+## Input/Usage
 The Main Class (RangerAssistScheduler) expects the following options to be passed when the application is invoked:-
 1. input.json (set of ranger policies which are monitored and maintained) -i
 2. user-principal-name (upn using which we connect to hdfs) -u
 3. keytab (keytab path for the upn) -t
 4. frequency (repeat-period for the application) -q
 
-###Invoking main class
+### Invoking main class
 ```
 java -Dproc_com.hwx.ranger.RangerAssistScheduler -Dlog4j.configuration=file:///home/user123/ranger-automation-assist/log4j.properties  -cp /usr/hdp/current/hadoop-client/lib/*:./ranger-automation-assist-0.0.1-SNAPSHOT.jar com.hwx.ranger.RangerAssistScheduler -i hdp_ranger_policy_input.json -u hdfs@TECH.HDP.hdphost.COM -t /home/user123/ranger-automation-assist/hdfs.headless.keytab -q 30 
 ```
@@ -81,7 +81,7 @@ java -Dproc_com.hwx.ranger.RangerAssistScheduler -Dlog4j.configuration=file:///h
 It also creates a pid file in the working dir. It has all the variables to satisfy the classpath.
 
 
-###Input JSON (hdp_ranger_policy_input)
+### Input JSON (hdp_ranger_policy_input)
 This file has two sections 
 - envdetails
 - hdfschecklist. 
@@ -157,10 +157,10 @@ autoIdentifyAttributes - this boolean flag is set to true to indicate if this ch
 autoIdentifyAttributesKeys - the keys which should be used in conjunction with autoIdentifyAttributes. See usage pattern section for more info.
 policyItems - This specifies the List of ACLs to be applied in the ranger policy. Multiple ACL+user/group combinations can be provided as required.
 
-##Usage Patterns:-
+## Usage Patterns:-
 This section describes the different ways to maintain the Ranger policies based on the inputs applied via the HDFSCheckList item. Each HDFSCheckList can broadly follow one of the three patterns.
 
-###1. Standard - non dynamic input
+### 1. Standard - non dynamic input
 
 "depth" = 0 ensures that "paths" are not dynamically evaluated. The above input item with "depth"=0, would consider the paths mentioned in "paths" array element, and straight up apply the ACLs listed in the "policyItems" element.
 
@@ -193,7 +193,7 @@ Eg:-
 ```
 
 
-###2. Dynamic with autoIdentifyAttributes disabled 
+### 2. Dynamic with autoIdentifyAttributes disabled 
 
 "depth" > 0, ensures that the HDFS directories in "paths" are evaluated recursively for the "depth" mentioned.
 For instance, consider the following HDFS directory structure.
@@ -251,7 +251,7 @@ Eg:-
         }]
 }
 ```
-###3. Dynamic with autoIdentifyAttributes enabled
+### 3. Dynamic with autoIdentifyAttributes enabled
 
 The primary difference between this Pattern and Pattern-2 is that Pattern-2 works on ONE Ranger Policy. Any new paths created in HDFS would get added into that ONE static Ranger Policy Item. However, they may be cases where we would need separate Ranger Policies with separate ACLs based on the privileges for an HDFS Path. 
 
@@ -334,27 +334,31 @@ Create a Ranger Policy for these set of key-values (Policy Name: Dynamic:hr-oreg
 Dept=hr
 State=alaska
 ```
-Create a Ranger Policy for these set of key-values (Policy Name: Dynamic:hr-alaska-ReadWrite and ACL applied to group: hdp-hr-alaska-rw)
+Creates a Ranger Policy for these set of key-values (Policy Name: Dynamic:hr-alaska-ReadWrite and ACL applied to group: hdp-hr-alaska-rw)
+
 
 ```
 Dept=hr
 State=virginia
 ```
-Create a Ranger Policy for these set of key-values (Policy Name: Dynamic:hr-virginia-ReadWrite and ACL applied to group: hdp-hr-virginia-rw)
+Creates a Ranger Policy for these set of key-values (Policy Name: Dynamic:hr-virginia-ReadWrite and ACL applied to group: hdp-hr-virginia-rw)
+
 
 ```
 Dept=eng
 State=washington
 ```
-Create a Ranger Policy for these set of key-values (Policy Name: Dynamic:eng-washington-ReadWrite and ACL applied to group: hdp-eng-washington-rw)
+Creates a Ranger Policy for these set of key-values (Policy Name: Dynamic:eng-washington-ReadWrite and ACL applied to group: hdp-eng-washington-rw)
+
 
 ```
 Dept=eng
 State=california
 ```
-Create a Ranger Policy for these set of key-values (Policy Name: Dynamic:eng-california-ReadWrite and ACL applied to group: hdp-eng-california-rw)
+Creates a Ranger Policy for these set of key-values (Policy Name: Dynamic:eng-california-ReadWrite and ACL applied to group: hdp-eng-california-rw)
 
-The above input item will result in the following separate policies in Ranger:-
+
+- The above input item will result in the following separate policies in Ranger:-
  * Dynamic:hr-oregon-ReadWrite
  * Dynamic:hr-alaska-ReadWrite
  * Dynamic:hr-virginia-ReadWrite
@@ -398,7 +402,7 @@ A brief description the control flow of the program:-
 Logging:-
 The classes in the application have appropriate log, log-levels specified. The log4j properties file can be used to alter the log-level and log-file paths and names.
 
-##Deploy Instructions:-
+## Deploy Instructions:-
 1. Copy the git project and build the maven jar.
 2. Copy the files in git-project resources to the appropriate deployment directory in an HDFS client node. (the application need HDFS libs and com.google.guava lib greater than version 0.11)
 3. Edit the hdp_ranger_policy_input.json, to have the necessary input items, env details.
