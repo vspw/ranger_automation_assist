@@ -93,7 +93,7 @@ This file has two sections
 - envdetails
 - hdfschecklist. 
 
-envdetails has the following items:-
+1. envdetails has the following items:-
 
 ```
 {
@@ -133,7 +133,8 @@ hdfsKeytab - can be left empty as we are supplying this as an input option
 
 repeatPeriod - can be left empty as we are supplying this as an input option
 
-hdfschecklist is an array of policy inputs (aka. input item(s)). Each input consists of the following items:-
+
+2. hdfschecklist is an array of policy inputs (aka. input item(s)). Each input consists of the following items:-
 
 
 ```
@@ -247,7 +248,7 @@ For instance, consider the following HDFS directory structure.
 ```
 An input item with paths: "/data/base" and depth 2 - should create and maintain a ranger policy with name "resourceName" and paths "/data/base/hr/oregon", "/data/base/hr/alaska", "/data/base/hr/virginia" , "/data/base/eng/washington" and "/data/base/eng/california". 
 
-Let us suppose tomorrow, you have a new department (testing) and/or a new state (texas) added to the HDFS directory structure. This 1 policy should dynamically add that HDFS path to the appropriate Ranger policy.
+Let us suppose tomorrow, you have a new department (testing) and/or a new state (texas) added to the HDFS directory structure. This ONE policy should dynamically add that HDFS path to the appropriate Ranger policy.
 
 
 Eg:-
@@ -281,7 +282,7 @@ Eg:-
 ```
 ### 3. Dynamic with autoIdentifyAttributes enabled
 
-The primary difference between this Pattern and Pattern-2 is that Pattern-2 works on ONE Ranger Policy. Any new paths created in HDFS would get added into that ONE static Ranger Policy Item. However, they may be cases where we would need separate Ranger Policies with separate ACLs based on the privileges for an HDFS Path. 
+The primary difference between this Pattern and Pattern-2 is that Pattern-2 works on ONE Ranger Policy. Any new paths created in HDFS would get added into that ONE single Ranger Policy Item. However, they may be cases where we would need separate Ranger Policies with separate ACLs based on the privileges for an HDFS Path. 
 
 Consider the same HDFS directory structure:-
 ```
@@ -342,7 +343,7 @@ In such cases where each path in HDFS might have a separate ACL, this pattern ty
 
 If autoIdentifyAttributes is true:-
 
-First, find a list of directories under a depth 2 for path "/data/base". Lets call these "depth-paths"
+**First**, find a list of directories under a depth 2 for path "/data/base". Lets call these "depth-paths"
 ```
   /data/base/hr/oregon
   /data/base/hr/alaska
@@ -350,7 +351,7 @@ First, find a list of directories under a depth 2 for path "/data/base". Lets ca
   /data/base/eng/washington
   /data/base/eng/california
 ```
-Second, autoIdentifyAttributesKeys are read by the application. The application then tries to find appropriate values for these keys.
+**Second**, autoIdentifyAttributesKeys are read by the application. The application then tries to find appropriate values for these keys.
 - Parsing "depth-paths" from REVERSE and assign each key to corrponding sub-directory (values).
 ```
 Dept=hr
@@ -405,7 +406,7 @@ State=anchorage
 and so on...
 which is clearly incorrect. Corrosponding AD groups would not exist in Ranger and policy creating would fail.
 
-- Make sure that the number of autoIdentifyAttributesKeys corrospond to the number of tokens in the placeholders you would want to be replaced in "groups",  "resourceName" or even "description". For instance, if <Dept> and <State> are your keys then the placeholders for "groups",  "resourceName" and "description" should have "Dept" and "State" keys mentioned.
+- Make sure that the number of autoIdentifyAttributesKeys correspond to the number of tokens in the place-holders you would want to be replaced in "groups",  "resourceName" or even "description". For instance, if <Dept> and <State> are your keys then the place-holders for "groups",  "resourceName" and "description" should have "Dept" and "State" keys mentioned.
 
 - Note that a "depth" : 3 and "paths" : ["/data"] would also work similarly. However, the policy will apply not just on "/data/base" but ALSO on "/data/test", for instance. If you want to restrict this policy to "/data/base" make sure you use the appropriate path and depth combinations (depth : 2 and paths : ["/data/base"])
 
