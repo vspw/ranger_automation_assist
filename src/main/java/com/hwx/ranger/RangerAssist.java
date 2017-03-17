@@ -218,7 +218,7 @@ class RangerAssist extends TimerTask {
 			{
 				key=iteratorAutoIdentifyKeys.next(); 
 				logger.debug("Key:Value to be replaced :"+key+":"+objMapKeyToToken.get(key));
-				strInputHDFSItem=strInputHDFSItem.replaceAll(key, objMapKeyToToken.get(key));	
+				strInputHDFSItem=strInputHDFSItem.replace(key, objMapKeyToToken.get(key));	
 			}
 
 			objNewInputHDFSItem=new JsonUtils().parseHDFSCheckList(strInputHDFSItem);
