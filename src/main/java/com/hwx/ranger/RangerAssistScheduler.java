@@ -2,10 +2,10 @@ package com.hwx.ranger;
 /*
  * Usage:
  * java -Dproc_com.hwx.ranger.RangerAssistScheduler 
- * -Dlog4j.configuration=file:///home/t93ki8h/ranger-automation-assist/log4j.properties  
+ * -Dlog4j.configuration=file:///home/USER/ranger-automation-assist/log4j.properties  
  * -cp /usr/hdp/current/hadoop-client/client/*:./ranger-automation-assist-0.0.1-SNAPSHOT.jar 
- * com.hwx.ranger.RangerAssistScheduler -i nyl_ranger_policy_input.json 
- * -u hdfs-tech@TECH.HDP.NEWYORKLIFE.COM 
+ * com.hwx.ranger.RangerAssistScheduler -i ranger_policy_input.json 
+ * -u hdfs-tech@MYORD.COM 
  * -t /home/user1223/ranger-automation-assist/hdfs.headless.keytab 
  * -q 30
  * 
